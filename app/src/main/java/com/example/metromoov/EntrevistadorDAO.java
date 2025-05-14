@@ -8,9 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class EntrevistadorDAO extends SQLiteOpenHelper {
 
-    public static final String NOME_BANCO = "bdcontatos";
+    public static final String NOME_BANCO = "bdMetroMoov";
     public static final int VERSAO_BANCO = 1;
-
     public static final String TABELA_ENTREVISTADOR = "entrevistador";
     public static final String COLUNA_ID = "id";
     public static final String COLUNA_LOGIN = "login";

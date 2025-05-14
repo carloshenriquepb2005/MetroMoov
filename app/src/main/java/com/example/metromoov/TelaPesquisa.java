@@ -1,14 +1,13 @@
 package com.example.metromoov;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +17,39 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class TelaPesquisa extends AppCompatActivity {
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-    private Button btSalvar, btApagar, btConsultar;
-    private EditText edLogin, edSenha;
-    private TextView txtId;
+//importações da geolocalização
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Looper;
+import androidx.core.app.ActivityCompat;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class TelaPesquisa extends AppCompatActivity {
+    private FusedLocationProviderClient fusedLocationClient;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    TextView tvData, tvLocalizacao;
+    EditText edCelular, edNome;
+    Button btFinalizar;
+    Spinner spOrigem, spDestino;
+    private String enderecoAtual = "Endereço não disponível";
+
+    private PessoaDAO pessoaDAO; // 🔹 Novo: DAO
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,50 +57,58 @@ public class TelaPesquisa extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pesquisa);
 
-        btSalvar = findViewById(R.id.btSalvar);
-        btApagar = findViewById(R.id.btExcluir);
-        btConsultar = findViewById(R.id.btConsultar);
+        // Inicializações
+        tvLocalizacao = findViewById(R.id.tvLocalizacao);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        tvLocalizacao.setText("Obtendo endereço...");
+        obterLocalizacao();
 
-        edLogin = findViewById(R.id.edLogin);
-        edSenha = findViewById(R.id.edSenha);
-        txtId = findViewById(R.id.txtId);
+        tvData = findViewById(R.id.tvData);
+        edCelular = findViewById(R.id.edCelular);
+        spOrigem = findViewById(R.id.spOrigem);
+        spDestino = findViewById(R.id.spDestino);
+        edNome = findViewById(R.id.edNome);
+        btFinalizar = findViewById(R.id.btFinalizar);
 
-        btSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Entrevistador e = new Entrevistador();
-                e.setLogin(edLogin.getText().toString());
-                e.setSenha(edSenha.getText().toString());
+        pessoaDAO = new PessoaDAO(this); // 🔹 Instanciando DAO
 
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaPesquisa.this);
-                dao.salvarEntrevistador(e);
-                Toast.makeText(TelaPesquisa.this, "Entrevistador salvo", Toast.LENGTH_SHORT).show();
-                limparCampos();
+        // Data/hora atual
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String dataAtual = data.format(new Date());
+        String horaAtual = hora.format(new Date());
+        tvData.setFocusable(false);
+        tvData.setClickable(false);
+        tvData.setText(String.format("Data: %s\n\nHora: %s", dataAtual, horaAtual));
+
+        // Spinners
+        String[] opcoes = {"Selecione", "Terminal Leste", "Terminal Oeste", "Centro", "Zona Sul"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, opcoes);
+        spOrigem.setAdapter(adapter);
+        spDestino.setAdapter(adapter);
+
+        btFinalizar.setOnClickListener(v -> {
+            String nome = edNome.getText().toString().trim();
+            String celular = edCelular.getText().toString().trim();
+            String origem = spOrigem.getSelectedItem().toString();
+            String destino = spDestino.getSelectedItem().toString();
+
+            if (nome.isEmpty() || celular.isEmpty() || origem.equals("Selecione") || destino.equals("Selecione")) {
+                Toast.makeText(TelaPesquisa.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
 
-        btApagar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaPesquisa.this);
-                dao.excluirEntrevistador(Integer.parseInt(txtId.getText().toString()));
-                Toast.makeText(TelaPesquisa.this, "Entrevistador excluído", Toast.LENGTH_SHORT).show();
-                limparCampos();
-            }
-        });
+            // Criar objeto Pessoa com os dados do formulário
+            Pessoa pessoa = new Pessoa(nome, celular, dataAtual, horaAtual, enderecoAtual, origem, destino);
 
-        btConsultar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaPesquisa.this);
-                Entrevistador e = dao.consultarEntrevistadorPorLogin(edLogin.getText().toString());
-                if (e != null) {
-                    txtId.setText(String.valueOf(e.getId()));
-                    edSenha.setText(e.getSenha());
-                } else {
-                    Toast.makeText(TelaPesquisa.this, "Entrevistador não encontrado", Toast.LENGTH_SHORT).show();
-                }
-            }
+            // Salvar no banco
+            pessoaDAO.salvarPessoa(pessoa); // ✅ Salvando no banco
+
+            Toast.makeText(TelaPesquisa.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+
+            // Redirecionar
+            startActivity(new Intent(TelaPesquisa.this, Login.class));
+            finish();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainPesquisa), (v, insets) -> {
@@ -82,17 +117,75 @@ public class TelaPesquisa extends AppCompatActivity {
             return insets;
         });
     }
-    private void limparCampos() {
-        edLogin.setText("");
-        edSenha.setText("");
-        txtId.setText("");
-    }
-    private void esconderTeclado() {
-        View viewAtual = getCurrentFocus();
-        if (viewAtual != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(viewAtual.getWindowToken(), 0);
+
+    // localização (mesmo código anterior)
+    private void obterLocalizacao() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
         }
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null && locationResult.getLastLocation() != null) {
+                    Location location = locationResult.getLastLocation();
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    obterEnderecoGoogleAPI(latitude, longitude);
+                }
+            }
+        }, Looper.getMainLooper());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                obterLocalizacao();
+            } else {
+                Toast.makeText(this, "Permissão de localização negada!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void obterEnderecoGoogleAPI(double lat, double lon) {
+        String urlString = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                lat + "," + lon + "&key=" + BuildConfig.MAPS_API_KEY;
+
+        new Thread(() -> {
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+                conexao.setRequestMethod("GET");
+                conexao.connect();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    sb.append(linha);
+                }
+
+                JSONObject respostaJson = new JSONObject(sb.toString());
+                JSONArray results = respostaJson.getJSONArray("results");
+
+                if (results.length() > 0) {
+                    String enderecoCompleto = results.getJSONObject(0).getString("formatted_address");
+                    enderecoAtual = enderecoCompleto;
+                    runOnUiThread(() -> tvLocalizacao.setText("Endereço: " + enderecoCompleto));
+                } else {
+                    runOnUiThread(() -> tvLocalizacao.setText("Endereço não encontrado."));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> tvLocalizacao.setText("Erro ao consultar endereço."));
+            }
+        }).start();
     }
 }
 

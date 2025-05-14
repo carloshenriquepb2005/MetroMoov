@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainPesquisa"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:padding="16dp">
+
+        <EditText android:id="@+id/edLogin"
+            android:hint="Login" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText android:id="@+id/edSenha"
+            android:hint="Senha" android:inputType="textPassword"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView android:id="@+id/txtId"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="ID" android:visibility="invisible" />
+
+        <Button android:id="@+id/btSalvar"
+            android:text="Salvar" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button android:id="@+id/btConsultar"
+            android:text="Consultar" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button android:id="@+id/btExcluir"
+            android:text="Excluir" android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
