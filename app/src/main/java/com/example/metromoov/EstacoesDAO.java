@@ -18,14 +18,14 @@ public class EstacoesDAO {
     public void salvarEstacao(Estacoes estacao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", estacao.getNome());
-        valores.put("descricao", estacao.getDescricao());
+        valores.put("descricao", estacao.getLinha());
         db.insert("estacoes", null, valores);
     }
 
     public void atualizarEstacao(Estacoes estacao) {
         ContentValues valores = new ContentValues();
         valores.put("nome", estacao.getNome());
-        valores.put("descricao", estacao.getDescricao());
+        valores.put("descricao", estacao.getLinha());
         String[] whereArgs = { String.valueOf(estacao.getId()) };
         db.update("estacoes", valores, "id = ?", whereArgs);
     }
@@ -44,7 +44,7 @@ public class EstacoesDAO {
             Estacoes estacao = new Estacoes();
             estacao.setId(cursor.getInt(0));
             estacao.setNome(cursor.getString(1));
-            estacao.setDescricao(cursor.getString(2));
+            estacao.setLinha(cursor.getString(2));
             cursor.close();
             return estacao;
         }
@@ -61,7 +61,7 @@ public class EstacoesDAO {
             Estacoes estacao = new Estacoes();
             estacao.setId(cursor.getInt(0));
             estacao.setNome(cursor.getString(1));
-            estacao.setDescricao(cursor.getString(2));
+            estacao.setLinha(cursor.getString(2));
             lista.add(estacao);
         }
 

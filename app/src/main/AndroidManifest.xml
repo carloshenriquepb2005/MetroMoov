@@ -30,6 +30,8 @@
         <activity android:name=".TelaPesquisa"/>
         <activity android:name=".TelaDadosParticipantes"/>
         <activity android:name=".TelaDadosEntrevistadores"/>
+        <activity android:name=".TelaResultadosPesquisa"/>
+
     </application>
 
 </manifest>
