@@ -47,13 +47,13 @@ public class PessoaDAO extends SQLiteOpenHelper {
     public void salvarPessoa(Pessoa p) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
-        valores.put(COLUNA_NOME, p.nome);
-        valores.put(COLUNA_CELULAR, p.celular);
-        valores.put(COLUNA_DATA, p.data);
-        valores.put(COLUNA_HORA, p.hora);
-        valores.put(COLUNA_ENDERECO, p.endereco);
-        valores.put(COLUNA_ORIGEM, p.origem);
-        valores.put(COLUNA_DESTINO, p.destino);
+        valores.put(COLUNA_NOME, p.getNome());
+        valores.put(COLUNA_CELULAR, p.getCelular());
+        valores.put(COLUNA_DATA, p.getData());
+        valores.put(COLUNA_HORA, p.getHora());
+        valores.put(COLUNA_ENDERECO, p.getEndereco());
+        valores.put(COLUNA_ORIGEM, p.getOrigem());
+        valores.put(COLUNA_DESTINO, p.getDestino());
         db.insert(TABELA_PESSOA, null, valores);
         db.close();
     }
@@ -61,13 +61,13 @@ public class PessoaDAO extends SQLiteOpenHelper {
     public void atualizarPessoa(int id, Pessoa p) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
-        valores.put(COLUNA_NOME, p.nome);
-        valores.put(COLUNA_CELULAR, p.celular);
-        valores.put(COLUNA_DATA, p.data);
-        valores.put(COLUNA_HORA, p.hora);
-        valores.put(COLUNA_ENDERECO, p.endereco);
-        valores.put(COLUNA_ORIGEM, p.origem);
-        valores.put(COLUNA_DESTINO, p.destino);
+        valores.put(COLUNA_NOME, p.getNome());
+        valores.put(COLUNA_CELULAR, p.getCelular());
+        valores.put(COLUNA_DATA, p.getData());
+        valores.put(COLUNA_HORA, p.getHora());
+        valores.put(COLUNA_ENDERECO, p.getEndereco());
+        valores.put(COLUNA_ORIGEM, p.getOrigem());
+        valores.put(COLUNA_DESTINO, p.getDestino());
         String[] parametros = { String.valueOf(id) };
         db.update(TABELA_PESSOA, valores, "id = ?", parametros);
         db.close();

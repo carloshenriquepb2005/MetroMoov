@@ -19,24 +19,24 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        UsuarioDAO dao = new UsuarioDAO(this);
-        Usuario admin = dao.consultarEntrevistadorPorLogin("admin");
+        UsuarioDAO dao = new UsuarioDAO(MainActivity.this);
+        Usuario admin = dao.consultarUsuario("admin");
 
         if (admin == null) {
             Usuario novoAdmin = new Usuario();
             novoAdmin.setLogin("admin");
             novoAdmin.setSenha("1234");
             novoAdmin.setAdmin(true);
-            dao.salvarEntrevistador(novoAdmin);
+            dao.salvarUsuario(novoAdmin);
         }
-        Usuario existente = dao.consultarEntrevistadorPorLogin("ent");
+        Usuario existente = dao.consultarUsuario("ent");
 
         if (existente == null) {
             Usuario e = new Usuario();
             e.setLogin("ent");
             e.setSenha("1234");
             e.setAdmin(false); // não é administrador
-            dao.salvarEntrevistador(e);
+            dao.salvarUsuario(e);
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {

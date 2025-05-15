@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class TelaAdmin extends AppCompatActivity {
 
-    Button btConfig;
+    Button btConfig, btDadosEntrevistadores, btDadosParticipantes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

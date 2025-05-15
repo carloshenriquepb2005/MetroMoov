@@ -34,12 +34,12 @@
         app:layout_constraintTop_toBottomOf="@id/textView7" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btEstimulada"
+        android:id="@+id/btResultadosPesquisa"
         android:layout_width="330dp"
         android:layout_height="55dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
         android:text="📊 Resultados Pesquisa"
@@ -50,7 +50,7 @@
         app:elevation="4dp"
         app:iconPadding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
@@ -58,9 +58,9 @@
         android:id="@+id/btConfig"
         android:layout_width="330dp"
         android:layout_height="55dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="208dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
         android:text="⚙️ Configurações"
@@ -70,17 +70,17 @@
         app:cornerRadius="16dp"
         app:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btDados2" />
+        app:layout_constraintTop_toBottomOf="@+id/btDadosEntrevistadores" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btDados"
+        android:id="@+id/btDadosParticipantes"
         android:layout_width="330dp"
         android:layout_height="55dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
         android:text="📁 Dados dos Participantes"
@@ -90,17 +90,17 @@
         app:cornerRadius="16dp"
         app:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btEstimulada" />
+        app:layout_constraintTop_toBottomOf="@+id/btResultadosPesquisa" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btDados2"
+        android:id="@+id/btDadosEntrevistadores"
         android:layout_width="330dp"
         android:layout_height="55dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
         android:text="📁 Dados dos Entrevistadores"
@@ -110,8 +110,8 @@
         app:cornerRadius="16dp"
         app:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btEstimulada" />
+        app:layout_constraintTop_toBottomOf="@+id/btDadosParticipantes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,10 +43,9 @@ public class TelaLogin extends AppCompatActivity {
                 }
 
                 UsuarioDAO dao = new UsuarioDAO(TelaLogin.this);
-                Usuario entrevistador = dao.consultarEntrevistadorPorLogin(usuario);
+                Usuario entrevistador = dao.consultarUsuario(usuario);
 
                 if (entrevistador != null && entrevistador.getSenha().equals(senha)) {
-                    // Login válido
                     if (entrevistador.getLogin().equalsIgnoreCase("admin")) {
                         // Acesso de administrador
                         Intent intent = new Intent(TelaLogin.this, TelaAdmin.class);

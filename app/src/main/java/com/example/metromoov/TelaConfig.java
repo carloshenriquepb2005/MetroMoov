@@ -43,19 +43,34 @@ public class TelaConfig extends AppCompatActivity {
                 e.setSenha(edSenha.getText().toString());
 
                 UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
-                dao.salvarEntrevistador(e);
-                Toast.makeText(TelaConfig.this, "Entrevistador salvo", Toast.LENGTH_SHORT).show();
+
+                // Verifica se o campo ID está preenchido para atualizar ou salvar
+                if (!txtId.getText().toString().isEmpty()) {
+                    e.setId(Integer.parseInt(txtId.getText().toString()));
+                    dao.atualizarUsuario(e);
+                    Toast.makeText(TelaConfig.this, "Entrevistador atualizado", Toast.LENGTH_SHORT).show();
+                } else {
+                    dao.salvarUsuario(e);
+                    Toast.makeText(TelaConfig.this, "Entrevistador salvo", Toast.LENGTH_SHORT).show();
+                }
+
                 limparCampos();
+                esconderTeclado();
             }
         });
 
         btApagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
-                dao.excluirEntrevistador(Integer.parseInt(txtId.getText().toString()));
-                Toast.makeText(TelaConfig.this, "Entrevistador excluído", Toast.LENGTH_SHORT).show();
-                limparCampos();
+                if (!txtId.getText().toString().isEmpty()) {
+                    UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
+                    dao.excluirUsuario(Integer.parseInt(txtId.getText().toString()));
+                    Toast.makeText(TelaConfig.this, "Entrevistador excluído", Toast.LENGTH_SHORT).show();
+                    limparCampos();
+                    esconderTeclado();
+                } else {
+                    Toast.makeText(TelaConfig.this, "Nenhum entrevistador para excluir", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -63,13 +78,15 @@ public class TelaConfig extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
-                Usuario e = dao.consultarEntrevistadorPorLogin(edLogin.getText().toString());
+                Usuario e = dao.consultarUsuario(edLogin.getText().toString());
                 if (e != null) {
                     txtId.setText(String.valueOf(e.getId()));
+                    edLogin.setText(e.getLogin());
                     edSenha.setText(e.getSenha());
                 } else {
                     Toast.makeText(TelaConfig.this, "Entrevistador não encontrado", Toast.LENGTH_SHORT).show();
                 }
+                esconderTeclado();
             }
         });
 
@@ -79,11 +96,13 @@ public class TelaConfig extends AppCompatActivity {
             return insets;
         });
     }
+
     private void limparCampos() {
         edLogin.setText("");
         edSenha.setText("");
         txtId.setText("");
     }
+
     private void esconderTeclado() {
         View viewAtual = getCurrentFocus();
         if (viewAtual != null) {
@@ -92,4 +111,3 @@ public class TelaConfig extends AppCompatActivity {
         }
     }
 }
-
