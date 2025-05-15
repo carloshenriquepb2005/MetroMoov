@@ -4,48 +4,28 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-public class PessoaDAO extends SQLiteOpenHelper {
+public class PessoaDAO {
 
-    public static final String NOME_BANCO = "bdMetroMoov";
-    public static final int VERSAO_BANCO = 1;
-    public static final String TABELA_PESSOA = "pessoa";
+    private static final String TABELA_PESSOA = "pessoa";
 
-    public static final String COLUNA_ID = "id";
-    public static final String COLUNA_NOME = "nome";
-    public static final String COLUNA_CELULAR = "celular";
-    public static final String COLUNA_DATA = "data";
-    public static final String COLUNA_HORA = "hora";
-    public static final String COLUNA_ENDERECO = "endereco";
-    public static final String COLUNA_ORIGEM = "origem";
-    public static final String COLUNA_DESTINO = "destino";
+    private static final String COLUNA_ID = "id";
+    private static final String COLUNA_NOME = "nome";
+    private static final String COLUNA_CELULAR = "celular";
+    private static final String COLUNA_DATA = "data";
+    private static final String COLUNA_HORA = "hora";
+    private static final String COLUNA_ENDERECO = "endereco";
+    private static final String COLUNA_ORIGEM = "origem";
+    private static final String COLUNA_DESTINO = "destino";
+
+    private final SQLiteDatabase db;
 
     public PessoaDAO(Context context) {
-        super(context, NOME_BANCO, null, VERSAO_BANCO);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABELA_PESSOA + " ("
-                + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUNA_NOME + " TEXT NOT NULL, "
-                + COLUNA_CELULAR + " TEXT, "
-                + COLUNA_DATA + " TEXT, "
-                + COLUNA_HORA + " TEXT, "
-                + COLUNA_ENDERECO + " TEXT, "
-                + COLUNA_ORIGEM + " TEXT, "
-                + COLUNA_DESTINO + " TEXT)");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABELA_PESSOA);
-        onCreate(db);
+        DatabaseHelper helper = new DatabaseHelper(context);
+        this.db = helper.getWritableDatabase();
     }
 
     public void salvarPessoa(Pessoa p) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(COLUNA_NOME, p.getNome());
         valores.put(COLUNA_CELULAR, p.getCelular());
@@ -55,11 +35,9 @@ public class PessoaDAO extends SQLiteOpenHelper {
         valores.put(COLUNA_ORIGEM, p.getOrigem());
         valores.put(COLUNA_DESTINO, p.getDestino());
         db.insert(TABELA_PESSOA, null, valores);
-        db.close();
     }
 
     public void atualizarPessoa(int id, Pessoa p) {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(COLUNA_NOME, p.getNome());
         valores.put(COLUNA_CELULAR, p.getCelular());
@@ -70,20 +48,17 @@ public class PessoaDAO extends SQLiteOpenHelper {
         valores.put(COLUNA_DESTINO, p.getDestino());
         String[] parametros = { String.valueOf(id) };
         db.update(TABELA_PESSOA, valores, "id = ?", parametros);
-        db.close();
     }
 
     public void excluirPessoa(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
         String[] parametros = { String.valueOf(id) };
         db.delete(TABELA_PESSOA, "id = ?", parametros);
-        db.close();
     }
 
     public Pessoa consultarPessoaPorId(int id) {
         Pessoa p = null;
-        SQLiteDatabase db = this.getReadableDatabase();
         String[] parametros = { String.valueOf(id) };
+
         Cursor cr = db.query(
                 TABELA_PESSOA,
                 new String[]{COLUNA_NOME, COLUNA_CELULAR, COLUNA_DATA, COLUNA_HORA, COLUNA_ENDERECO, COLUNA_ORIGEM, COLUNA_DESTINO},
@@ -107,7 +82,6 @@ public class PessoaDAO extends SQLiteOpenHelper {
         }
 
         cr.close();
-        db.close();
         return p;
     }
 }

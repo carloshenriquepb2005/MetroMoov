@@ -28,6 +28,8 @@
         <activity android:name=".TelaConfig"/>
         <activity android:name=".TelaAdmin"/>
         <activity android:name=".TelaPesquisa"/>
+        <activity android:name=".TelaDadosParticipantes"/>
+        <activity android:name=".TelaDadosEntrevistadores"/>
     </application>
 
 </manifest>
