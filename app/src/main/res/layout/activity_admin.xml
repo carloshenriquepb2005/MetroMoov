@@ -40,9 +40,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/verde"
+        android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
-        android:text="📊 Pesquisa Estimulada"
+        android:text="📊 Resultados Pesquisa"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -50,46 +50,29 @@
         app:elevation="4dp"
         app:iconPadding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btEspontanea"
+        android:id="@+id/btConfig"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="280dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/verde"
+        android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
-        android:text="🗳️ Pesquisa Espontânea"
+        android:text="⚙️ Configurações"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:cornerRadius="16dp"
         app:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btEstimulada" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btProblemas"
-        android:layout_width="330dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/verde"
-        android:fontFamily="sans-serif-medium"
-        android:text="🚧 Pesquisa de Problemas"
-        android:textAllCaps="true"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:cornerRadius="16dp"
-        app:elevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btEspontanea" />
+        app:layout_constraintTop_toBottomOf="@+id/btDados2" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btDados"
@@ -98,7 +81,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/verde"
+        android:backgroundTint="@color/grey"
         android:fontFamily="sans-serif-medium"
         android:text="📁 Dados dos Participantes"
         android:textAllCaps="true"
@@ -107,7 +90,28 @@
         app:cornerRadius="16dp"
         app:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btProblemas" />
+        app:layout_constraintTop_toBottomOf="@+id/btEstimulada" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btDados2"
+        android:layout_width="330dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/grey"
+        android:fontFamily="sans-serif-medium"
+        android:text="📁 Dados dos Entrevistadores"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:cornerRadius="16dp"
+        app:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btEstimulada" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

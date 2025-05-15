@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class EntrevistadorDAO extends SQLiteOpenHelper {
+public class UsuarioDAO extends SQLiteOpenHelper {
 
     public static final String NOME_BANCO = "bdMetroMoov";
     public static final int VERSAO_BANCO = 1;
@@ -16,7 +16,7 @@ public class EntrevistadorDAO extends SQLiteOpenHelper {
     public static final String COLUNA_SENHA = "senha";
     public static final String COLUNA_ISADMIN = "isAdmin"; // NOVO CAMPO
 
-    public EntrevistadorDAO(Context context) {
+    public UsuarioDAO(Context context) {
         super(context, NOME_BANCO, null, VERSAO_BANCO);
     }
 
@@ -35,7 +35,7 @@ public class EntrevistadorDAO extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void salvarEntrevistador(Entrevistador e) {
+    public void salvarEntrevistador(Usuario e) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(COLUNA_LOGIN, e.getLogin());
@@ -45,7 +45,7 @@ public class EntrevistadorDAO extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void atualizarEntrevistador(Entrevistador e) {
+    public void atualizarEntrevistador(Usuario e) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(COLUNA_LOGIN, e.getLogin());
@@ -63,8 +63,8 @@ public class EntrevistadorDAO extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Entrevistador consultarEntrevistadorPorLogin(String plogin) {
-        Entrevistador e = null;
+    public Usuario consultarEntrevistadorPorLogin(String plogin) {
+        Usuario e = null;
         String[] parametro = { plogin };
         String[] campos = { "id", "login", "senha", "isAdmin" };
 
@@ -80,7 +80,7 @@ public class EntrevistadorDAO extends SQLiteOpenHelper {
         );
 
         if (cr.moveToFirst()) {
-            e = new Entrevistador();
+            e = new Usuario();
             e.setId(cr.getInt(0));
             e.setLogin(cr.getString(1));
             e.setSenha(cr.getString(2));

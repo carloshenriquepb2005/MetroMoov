@@ -19,20 +19,20 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        EntrevistadorDAO dao = new EntrevistadorDAO(this);
-        Entrevistador admin = dao.consultarEntrevistadorPorLogin("admin");
+        UsuarioDAO dao = new UsuarioDAO(this);
+        Usuario admin = dao.consultarEntrevistadorPorLogin("admin");
 
         if (admin == null) {
-            Entrevistador novoAdmin = new Entrevistador();
+            Usuario novoAdmin = new Usuario();
             novoAdmin.setLogin("admin");
             novoAdmin.setSenha("1234");
             novoAdmin.setAdmin(true);
             dao.salvarEntrevistador(novoAdmin);
         }
-        Entrevistador existente = dao.consultarEntrevistadorPorLogin("ent");
+        Usuario existente = dao.consultarEntrevistadorPorLogin("ent");
 
         if (existente == null) {
-            Entrevistador e = new Entrevistador();
+            Usuario e = new Usuario();
             e.setLogin("ent");
             e.setSenha("1234");
             e.setAdmin(false); // não é administrador
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, Login.class);
+            Intent intent = new Intent(MainActivity.this, TelaLogin.class);
             startActivity(intent);
             finish();
         }, 2000);

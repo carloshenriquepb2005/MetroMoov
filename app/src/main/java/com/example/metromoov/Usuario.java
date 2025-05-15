@@ -1,16 +1,16 @@
 package com.example.metromoov;
 
-public class Entrevistador {
+public class Usuario {
     private int id;
     private String login;
     private String senha;
     private boolean isAdmin;
-    public Entrevistador() {
+    public Usuario() {
         this.id = 0;
         this.login = "";
         this.senha = "";
     }
-    public Entrevistador(String login, String senha) {
+    public Usuario(String login, String senha) {
         this.login = login;
         this.senha = senha;
     }

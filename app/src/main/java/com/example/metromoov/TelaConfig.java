@@ -38,11 +38,11 @@ public class TelaConfig extends AppCompatActivity {
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Entrevistador e = new Entrevistador();
+                Usuario e = new Usuario();
                 e.setLogin(edLogin.getText().toString());
                 e.setSenha(edSenha.getText().toString());
 
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaConfig.this);
+                UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
                 dao.salvarEntrevistador(e);
                 Toast.makeText(TelaConfig.this, "Entrevistador salvo", Toast.LENGTH_SHORT).show();
                 limparCampos();
@@ -52,7 +52,7 @@ public class TelaConfig extends AppCompatActivity {
         btApagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaConfig.this);
+                UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
                 dao.excluirEntrevistador(Integer.parseInt(txtId.getText().toString()));
                 Toast.makeText(TelaConfig.this, "Entrevistador excluído", Toast.LENGTH_SHORT).show();
                 limparCampos();
@@ -62,8 +62,8 @@ public class TelaConfig extends AppCompatActivity {
         btConsultar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EntrevistadorDAO dao = new EntrevistadorDAO(TelaConfig.this);
-                Entrevistador e = dao.consultarEntrevistadorPorLogin(edLogin.getText().toString());
+                UsuarioDAO dao = new UsuarioDAO(TelaConfig.this);
+                Usuario e = dao.consultarEntrevistadorPorLogin(edLogin.getText().toString());
                 if (e != null) {
                     txtId.setText(String.valueOf(e.getId()));
                     edSenha.setText(e.getSenha());

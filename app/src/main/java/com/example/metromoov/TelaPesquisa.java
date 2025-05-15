@@ -3,7 +3,6 @@ package com.example.metromoov;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -107,7 +106,7 @@ public class TelaPesquisa extends AppCompatActivity {
             Toast.makeText(TelaPesquisa.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
 
             // Redirecionar
-            startActivity(new Intent(TelaPesquisa.this, Login.class));
+            startActivity(new Intent(TelaPesquisa.this, TelaLogin.class));
             finish();
         });
 

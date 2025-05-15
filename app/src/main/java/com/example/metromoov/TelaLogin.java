@@ -15,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Login extends AppCompatActivity {
+public class TelaLogin extends AppCompatActivity {
     Button btLogin;
     EditText edUsuario, edSenha;
 
@@ -38,27 +38,27 @@ public class Login extends AppCompatActivity {
                 String senha = edSenha.getText().toString().trim();
 
                 if (usuario.isEmpty() || senha.isEmpty()) {
-                    Toast.makeText(Login.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TelaLogin.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                EntrevistadorDAO dao = new EntrevistadorDAO(Login.this);
-                Entrevistador entrevistador = dao.consultarEntrevistadorPorLogin(usuario);
+                UsuarioDAO dao = new UsuarioDAO(TelaLogin.this);
+                Usuario entrevistador = dao.consultarEntrevistadorPorLogin(usuario);
 
                 if (entrevistador != null && entrevistador.getSenha().equals(senha)) {
                     // Login válido
                     if (entrevistador.getLogin().equalsIgnoreCase("admin")) {
                         // Acesso de administrador
-                        Intent intent = new Intent(Login.this, TelaAdmin.class);
+                        Intent intent = new Intent(TelaLogin.this, TelaAdmin.class);
                         startActivity(intent);
                     } else {
                         // Acesso de entrevistador comum
-                        Intent intent = new Intent(Login.this, TelaPesquisa.class);
+                        Intent intent = new Intent(TelaLogin.this, TelaPesquisa.class);
                         startActivity(intent);
                     }
                 } else {
                     // Login inválido
-                    Toast.makeText(Login.this, "Usuário ou senha incorretos!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TelaLogin.this, "Usuário ou senha incorretos!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
