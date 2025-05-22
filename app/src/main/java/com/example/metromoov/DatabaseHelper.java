@@ -69,12 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Você pode implementar atualizações incrementais dependendo da versão
-        // Por simplicidade, aqui vamos dropar todas e recriar
-        db.execSQL("DROP TABLE IF EXISTS " + TABELA_USUARIOS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABELA_PESSOA);
-        db.execSQL("DROP TABLE IF EXISTS " + TABELA_ESTACOES);
 
-        onCreate(db);
     }
+
 }

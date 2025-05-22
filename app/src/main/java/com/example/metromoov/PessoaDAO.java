@@ -55,6 +55,27 @@ public class PessoaDAO {
         db.delete(TABELA_PESSOA, "id = ?", parametros);
     }
 
+    public Cursor listarTodos() {
+        return db.query(
+                TABELA_PESSOA,
+                new String[]{COLUNA_NOME, COLUNA_CELULAR, COLUNA_DATA, COLUNA_HORA, COLUNA_ENDERECO},
+                null,
+                null,
+                null,
+                null,
+                COLUNA_ID + " DESC"
+        );
+    }
+
+    public Cursor listarPessoas() {
+        return db.query("pessoa", null, null, null, null, null, null);
+    }
+
+    public void zerarTotais() {
+        db.delete("pessoa", null, null); // Remove todos os registros
+    }
+
+
     public Pessoa consultarPessoaPorId(int id) {
         Pessoa p = null;
         String[] parametros = { String.valueOf(id) };
@@ -84,4 +105,6 @@ public class PessoaDAO {
         cr.close();
         return p;
     }
+
+
 }

@@ -44,7 +44,7 @@ public class TelaPesquisa extends AppCompatActivity {
     private double longitude = 0.0;
     TextView tvData, tvLocalizacao;
     EditText edCelular, edNome;
-    Button btFinalizar;
+    Button btFinalizar, btSair;
     Spinner spOrigem, spDestino;
     private String enderecoAtual = "Endereço não disponível";
 
@@ -68,8 +68,9 @@ public class TelaPesquisa extends AppCompatActivity {
         spDestino = findViewById(R.id.spDestino);
         edNome = findViewById(R.id.edNome);
         btFinalizar = findViewById(R.id.btFinalizar);
+        btSair = findViewById(R.id.btSair);
 
-        pessoaDAO = new PessoaDAO(this); // 🔹 Instanciando DAO
+        pessoaDAO = new PessoaDAO(this);
 
         // Data/hora atual
         SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -81,7 +82,39 @@ public class TelaPesquisa extends AppCompatActivity {
         tvData.setText(String.format("Data: %s\n\nHora: %s", dataAtual, horaAtual));
 
         // Spinners
-        String[] opcoes = {"Selecione", "Terminal Leste", "Terminal Oeste", "Centro", "Zona Sul"};
+        String[] opcoes = {
+                "Clique para escolher a origem",
+                // Linha 2 - Verde
+                "Vila Prudente",
+                "Tamanduateí",
+                "Sacomã",
+                "Alto do Ipiranga",
+                "Santos-Imigrantes",
+                "Chácara Klabin",
+                "Ana Rosa",
+                "Paraíso",
+                "Brigadeiro",
+                "Trianon-Masp",
+                "Consolação",
+                "Clínicas",
+                "Sumaré",
+                "Vila Madalena",
+
+                "Clique para escolher o destino",
+                // Linha 4 - Amarela
+                "Luz",
+                "República",
+                "Higienópolis-Mackenzie",
+                "Paulista",
+                "Faria Lima",
+                "Pinheiros",
+                "Butantã",
+                "São Paulo-Morumbi",
+                "Fradique Coutinho",
+                "Oscar Freire",
+                "Vila Sônia"
+        };
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, opcoes);
         spOrigem.setAdapter(adapter);
         spDestino.setAdapter(adapter);
@@ -92,20 +125,22 @@ public class TelaPesquisa extends AppCompatActivity {
             String origem = spOrigem.getSelectedItem().toString();
             String destino = spDestino.getSelectedItem().toString();
 
-            if (nome.isEmpty() || celular.isEmpty() || origem.equals("Selecione") || destino.equals("Selecione")) {
+            if (nome.isEmpty() || celular.isEmpty() || origem.equals("Clique para escolher a origem") || destino.equals("Clique para escolher o destino")) {
                 Toast.makeText(TelaPesquisa.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Criar objeto Pessoa com os dados do formulário
             Pessoa pessoa = new Pessoa(nome, celular, dataAtual, horaAtual, enderecoAtual, origem, destino);
-
-            // Salvar no banco
-            pessoaDAO.salvarPessoa(pessoa); // ✅ Salvando no banco
+            pessoaDAO.salvarPessoa(pessoa);
 
             Toast.makeText(TelaPesquisa.this, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
 
-            // Redirecionar
+            // Reinicia a própria Activity para nova pesquisa (limpando campos)
+            finish();
+            startActivity(getIntent());
+        });
+
+        btSair.setOnClickListener(v -> {
             startActivity(new Intent(TelaPesquisa.this, TelaLogin.class));
             finish();
         });
@@ -116,6 +151,7 @@ public class TelaPesquisa extends AppCompatActivity {
             return insets;
         });
     }
+
 
     // localização (mesmo código anterior)
     private void obterLocalizacao() {

@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class TelaAdmin extends AppCompatActivity {
 
-    Button btConfig, btDadosEntrevistadores, btDadosParticipantes, btResultadosPesquisa;
+    Button btConfig, btDadosParticipantes, btResultadosPesquisa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,6 @@ public class TelaAdmin extends AppCompatActivity {
 
         btConfig = findViewById(R.id.btConfig);
         btDadosParticipantes = findViewById(R.id.btDadosParticipantes);
-        btDadosEntrevistadores = findViewById(R.id.btDadosEntrevistadores);
         btResultadosPesquisa = findViewById(R.id.btResultadosPesquisa);
 
         btConfig.setOnClickListener(new View.OnClickListener() {
@@ -39,14 +38,6 @@ public class TelaAdmin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TelaAdmin.this, TelaDadosParticipantes.class);
-                startActivity(intent);
-            }
-        });
-
-        btDadosEntrevistadores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TelaAdmin.this, TelaDadosEntrevistadores.class);
                 startActivity(intent);
             }
         });

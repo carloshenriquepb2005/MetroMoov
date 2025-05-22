@@ -5,7 +5,7 @@
     android:id="@+id/mainLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteFundo">
+    android:background="#FFFFFF">
 
     <EditText
         android:id="@+id/edUsuario"
@@ -60,6 +60,16 @@
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="18dp"
+        android:text="ent - 1234\nadmin - 1234"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
